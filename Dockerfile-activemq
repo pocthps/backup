@@ -1,10 +1,14 @@
+##########################################################################################################################
 # change the image Docker repo to your Java base image. For now the Java base image may not be built in openshift
 #However the Docker repo of your java image is predictable
 #The format should be docker-registry.default.svc:5000/[name_of_openshift_project]/[name_of_Java_image]:latest
 FROM docker-registry.default.svc:5000/thps-dev-project/java-docker:latest
+#####change the version of activemq
 ENV ACTIVEMQ_VERSION=5.15.1
 ####change this link to use different version of activemq
 ENV DOWNLOAD_LINK=https://archive.apache.org/dist/activemq/5.15.1/apache-activemq-5.15.1-bin.tar.gz
+############################################################################################################################
+############Do not change following steps
 ENV ACTIVEMQ=apache-activemq
 ENV ACTIVEMQ_HOME=/var/${ACTIVEMQ}-${ACTIVEMQ_VERSION}/
 # Downloads the specified versionon Active MQ
@@ -14,7 +18,7 @@ RUN tar -zxvf apache-activemq-*-bin.tar.gz -C /var
 RUN chgrp -R 0 /var
 RUN chmod -R g=u /var
 # Removes the downloaded file as it is no longer needed
-RUN rm -f apache-activemq-5.15.1-bin.tar.gz
+RUN rm -f apache-activemq-*.tar.gz
 WORKDIR $ACTIVEMQ_HOME
 # Exposes UI
 EXPOSE 8161
